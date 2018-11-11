@@ -1,0 +1,725 @@
+<html>
+<head>
+<title>Computer Vision Project</title>
+<link href='http://fonts.googleapis.com/css?family=Nunito:300|Crimson+Text|Droid+Sans+Mono' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" title="Default" href="styles/github.css">
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>  
+
+<link rel="stylesheet" href="highlighting/styles/default.css">
+<script src="highlighting/highlight.pack.js"></script>
+
+<style type="text/css">
+body {
+	margin: 0px;
+	width: 100%;
+	font-family: 'Crimson Text', serif;
+	font-size: 20px;
+	background: #fcfcfc;
+}
+h1 {
+	font-family: 'Nunito', sans-serif;
+	font-weight: normal;
+	font-size: 28px;
+	margin: 25px 0px 0px 0px;
+	text-transform: lowercase;
+
+}
+
+h2 {
+	font-family: 'Nunito', sans-serif;
+	font-weight: normal;
+	font-size: 32px;
+	margin: 15px 0px 35px 0px;
+	color: #333;	
+	word-spacing: 3px;
+}
+
+h3 {
+	font-family: 'Nunito', sans-serif;
+	font-weight: normal;
+	font-size: 26px;
+	margin: 10px 0px 10px 0px;
+	color: #333;
+	word-spacing: 2px;
+}
+h4 {
+	font-family: 'Nunito', sans-serif;
+	font-weight: normal;
+	font-size: 22px;
+	margin: 10px 0px 10px 0px;
+	color: #333;
+	word-spacing: 2px;
+}
+
+h5 {
+	font-family: 'Nunito', sans-serif;
+	font-weight: normal;
+	font-size: 18px;
+	margin: 10px 0px 10px 0px;
+	color: #111;
+	word-spacing: 2px;
+}
+
+p, li {
+	color: #444;
+}
+
+a {
+	color: #DE3737;
+}
+
+.container {
+	margin: 0px auto 0px auto;
+	width: 1160px;
+}
+
+#header {
+	background: #333;
+	width: 100%;
+}
+
+#headersub {
+	color: #ccc;
+	width: 960px;
+	margin: 0px auto 0px auto;
+	padding: 20px 0px 20px 0px;
+}
+
+.chart {
+	width: 480px;
+}
+.lol {
+	font-size: 16px;
+	color: #888;
+	font-style: italic;
+}
+.sep {
+	height: 1px;
+	width: 100%;
+	background: #999;
+	margin: 20px 0px 20px 0px;
+}
+.footer{
+	font-size: 16px;
+}
+.latex {
+	width: 100%;
+}
+
+.latex img {
+	display: block;
+	margin: 0px auto 0px auto;
+}
+
+pre {
+	font-family: 'Droid Sans Mono';
+	font-size: 14px;
+}
+
+table td {
+  text-align: center;
+  vertical-align: middle;
+}
+
+table td img {
+  text-align: center;
+  vertical-align: middle;
+}
+
+#contents a {
+}
+</style>
+<script type="text/javascript">
+    hljs.initHighlightingOnLoad();
+</script>
+</head>
+<body>
+<div id="header" >
+<div id="headersub">
+<h1>Dan Monga Kilanga</h1>
+</div>
+</div>
+<div class="container">
+
+<h2> Project 3 / Camera Calibration and Fundamental Matrix Estimation with RANSAC</h2>
+
+<h3>Introduction</h3>
+<p>  </p>
+<p>The main objectives of this project were to estimate the camera projection matrix and to estimate a fundamental matrix given two scenes. The camera projection matrix establishes the relationship between 3D coordinates in the world and coordinates on images. On the other hand, the fundamental matrix establishes the relationship between points in one scene and epipolar lines in the other scene. In order to accomplish the tasks, matching points from the two scenes of interest are used.</p>
+
+<p>  </p>
+<h3>Part I: Camera Projection Matrix Implementaion</h3>
+<p>  </p>
+<p>The singular value decomposition method was used to compute the projection matrix by using the intermediary matrix A shown below:  </p>
+
+<p>  </p>
+
+<table cellspacing="2.5">
+    <tr>
+      <td class="top-and-left"></td>
+      <td>X<sub>1</sub></td>
+      <td>Y<sub>1</sub></td>
+      <td>Z<sub>1</sub></td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>-u<sub>1</sub>X<sub>1</sub></td>
+      <td>-u<sub>1</sub>Y<sub>1</sub></td>
+      <td>-u<sub>1</sub>Z<sub>1</sub></td>
+      <td>-u<sub>1</sub></td>
+      <td class="top-and-right"></td>
+    </tr>
+    <tr>
+      <td class="left"></td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>X<sub>1</sub></td>
+      <td>Y<sub>1</sub></td>
+      <td>Z<sub>1</sub></td>
+      <td>1</td>
+      <td>-v<sub>1</sub>X<sub>1</sub></td>
+      <td>-v<sub>1</sub>Y<sub>1</sub></td>
+      <td>-v<sub>1</sub>Z<sub>1</sub></td>
+      <td>-v<sub>1</sub></td>
+      <td class="right"></td>
+    </tr>
+	<tr>
+	<td class="left"></td>
+	<td></td>
+	<td></td>
+	<td></td>
+	<td></td>
+	<td></td>
+	<td></td>
+	<td></td>
+    <td><span>&#8286;</span></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td class="right"></td>
+    </tr>
+    <tr>
+    <td class="left"></td>
+      <td>X<sub>n</sub></td>
+      <td>Y<sub>n</sub></td>
+      <td>Z<sub>n</sub></td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>-u<sub>n</sub>X<sub>n</sub></td>
+      <td>-u<sub>n</sub>Y<sub>n</sub></td>
+      <td>-u<sub>n</sub>Z<sub>n</sub></td>
+      <td>-u<sub>n</sub></td>
+      <td class="right"></td>
+    </tr>
+    <tr class="bottom row">
+      <td class="bottom-and-left"></td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>X<sub>n</sub></td>
+      <td>Y<sub>n</sub></td>
+      <td>Z<sub>n</sub></td>
+      <td>1</td>
+      <td>-v<sub>n</sub>X<sub>n</sub></td>
+      <td>-v<sub>n</sub>Y<sub>n</sub></td>
+      <td>-v<sub>n</sub>Z<sub>n</sub></td>
+      <td>-v<sub>n</sub></td>
+      <td class="bottom-and-right"></td>
+    </tr>
+  </table>
+
+
+    <style>
+    .top-and-left {
+      padding: 5px;
+      border-top: thin solid black;
+      border-left: thin solid black;
+    }
+
+    .top-and-right {
+      padding: 5px;
+      border-top: thin solid black;
+      border-right: thin solid black;
+    }
+
+    .bottom-and-left {
+      padding: 5px;
+      border-bottom: thin solid black;
+      border-left: thin solid black;
+    }
+
+    .bottom-and-right {
+      padding: 5px;
+      border-bottom: thin solid black;
+      border-right: thin solid black;
+    }
+
+    .left {
+      border-left: thin solid black;
+    }
+
+    .right {
+      border-right: thin solid black;
+    }
+    </style>
+<p> Where (X<sub>i</sub>, Y<sub>i</sub>, Z<sub>i</sub>) corresponds to the 3D world coordinates of the ith point and (u<sub>i</sub>, v<sub>i</sub>) its corresponding coordinates on the image. Matrix A was constructed using a for loop that took care of 2 rows of A in each iteration given that A has pairs of rows made of element indexed at the same time.
+The projection matrix M was estimated by doing the following  </p>
+<p>  </p>
+<table class="eq" summary="Equation and its number." width="100%">
+<tr>
+<td>[U, S, V] = svd(A);</td>
+<th align="right" valign="bottom">(1)</th>
+</tr>
+<tr>
+<td>M = V(:,end);</td>
+<th align="right" valign="bottom">(2)</th>
+</tr>
+<tr>
+<td>M = reshape(M, [], 3)';</td>
+<th align="right" valign="bottom">(3)</th>
+</tr>
+</table>
+<p>The resulting matrix M is given below:</p>
+<table cellspacing="2.5">
+    <tr>
+      <td class="top-and-left"></td>
+      <td>0.4583</td>
+      <td>-0.2947</td>
+      <td>-0.0140</td>
+      <td>0.0040</td>
+      <td class="top-and-right"></td>
+    </tr>
+    <tr>
+      <td class="left"></td>
+      <td>-0.0509</td>
+      <td>-0.0546</td>
+      <td>-0.5411</td>
+      <td>-0.0524</td>
+      <td class ="right"></td>
+    </tr>
+    <tr Class="bottom row">
+    <td class="bottom-and-left"></td>
+      <td>0.1090</td>
+      <td>0.1783</td>
+      <td>-0.0443</td>
+      <td>0.5968</td>
+      <td class="bottom-and-right"></td>
+    </tr>
+  </table>
+<p>In order to validate the obtained matrix, the evaluation code provided to compute residual between the projected 2D coordinates and the actual coordinates was ued, and a residual of 0.0445 was obtained. </p>
+
+<p>  </p> 
+<p>After obtaining the projection matrix, the next step consisted of finding an estimate for one of all the possible extrinsic parameter, which is the center of the camera in world coordinates.</p>
+<p>Matrix M can be decomposed into two matrices such that: </p>
+<table class="eq" summary="Equation and its number." width="100%">
+<tr>
+<td>M = (Q|m<sub>4</sub>)</td>
+<th align="right" valign="bottom">(4)</th>
+</tr>
+</table>
+<p>where Q is a 3x3 matrix and m<sub>4</sub> is a 3x1 vector. Thus, using the resulting matrices, the center C of the camera is computed as: </p>
+<table class="eq" summary="Equation and its number." width="100%">
+<tr>
+<td>C = -Q<sup>-1</sup>m<sub>4</sub></td>
+<th align="right" valign="bottom">(5)</th>
+</tr>
+</table>
+<p>The resulting camera center is given below:</p>
+<table class="eq" summary="Equation and its number." width="100%">
+<tr>
+<td>C = (-1.5127, -2.3517, 0.2826)</td>
+</tr>
+</table>
+<p>  </p>
+<table border=1>
+<tr>
+<td>
+<img src="proj3_part1_3d.jpg" width="100%"/>
+</td>
+</tr>
+
+<CAPTION>Position of camera center with respect to normalized 3D point coordinates</CAPTION>
+</table>
+<p>  </p>
+<table border=1>
+<tr>
+<td>
+<img src="proj3_part1_2d.jpg" width="100%"/>
+</td>
+</tr>
+
+<CAPTION>Actual 2D coordinates with their corresponding projections</CAPTION>
+</table>
+<p>  </p>
+<h3>Part II: Fundamental Matrix Estimation Implementaion</h3>
+Once again the singular value decomposition method was used to find an estimate of the fundamental matrix. First an intermediary matrix A is constructed as show below:
+
+<table cellspacing="2.5">
+    <tr>
+      <td class="top-and-left"></td>
+      <td>u<sub>1</sub>u<sub>1</sub><sup>'</sup></td>
+      <td>u<sub>1</sub>v<sub>1</sub><sup>'</sup></td>
+      <td>u<sub>1</sub></td>
+      <td>v<sub>1</sub>u<sub>1</sub><sup>'</sup></td>
+      <td>v<sub>1</sub>v<sub>1</sub><sup>'</sup></td>
+      <td>v<sub>1</sub></td>
+      <td>u<sub>1</sub><sup>'</sup></td>
+      <td>v<sub>1</sub><sup>'</sup></td>
+      <td>1</td>
+      <td class="top-and-right"></td>
+    </tr>
+	<tr>
+	<td class="left"></td>
+    <td><span>&#8286;</span></td>
+    <td><span>&#8286;</span></td>
+    <td><span>&#8286;</span></td>
+    <td><span>&#8286;</span></td>
+    <td><span>&#8286;</span></td>
+    <td><span>&#8286;</span></td>
+    <td><span>&#8286;</span></td>
+    <td><span>&#8286;</span></td>
+    <td><span>&#8286;</span></td>
+    <td class="right"></td>
+    </tr>
+    <tr class="bottom row">
+      <td class="bottom-and-left"></td>
+      <td>u<sub>n</sub>u<sub>n</sub><sup>'</sup></td>
+      <td>u<sub>n</sub>v<sub>n</sub><sup>'</sup></td>
+      <td>u<sub>n</sub></td>
+      <td>v<sub>n</sub>u<sub>n</sub><sup>'</sup></td>
+      <td>v<sub>n</sub>v<sub>n</sub><sup>'</sup></td>
+      <td>v<sub>n</sub></td>
+      <td>u<sub>n</sub><sup>'</sup></td>
+      <td>v<sub>n</sub><sup>'</sup></td>
+      <td>1</td>
+      <td class="bottom-and-right"></td>
+    </tr>
+  </table>
+ <p>Using matrix A, the fundamental matrix F is computed as:</p>
+<table class="eq" summary="Equation and its number." width="100%">
+<tr>
+<td>[U, S, V] = svd(A);</td>
+<th align="right" valign="bottom">(6)</th>
+</tr>
+<tr>
+<td>f = V(:,end);</td>
+<th align="right" valign="bottom">(7)</th>
+</tr>
+<tr>
+<td>F = reshape(f, [3 3])';</td>
+<th align="right" valign="bottom">(8)</th>
+</tr>
+</table>
+<p>Given that F has to satisfy the constraint that its determinant has to be equal to 0, further steps were taken as shown below:</p>
+<table class="eq" summary="Equation and its number." width="100%">
+<tr>
+<td>[U, S, V] = svd(F);</td>
+<th align="right" valign="bottom">(9)</th>
+</tr>
+<tr>
+<td>S(3,3) = 0;</td>
+<th align="right" valign="bottom">(10)</th>
+</tr>
+<tr>
+<td>F = U*S*V';</td>
+<th align="right" valign="bottom">(11)</th>
+</tr>
+</table>
+<p>The obtained fundamental matrix F is presented below: </p>
+<table cellspacing="2.5">
+    <tr>
+      <td class="top-and-left"></td>
+      <td>-0.0000</td>
+      <td>0.0000</td>
+      <td>-0.0009</td>
+      <td class="top-and-right"></td>
+    </tr>
+    <tr>
+      <td class="left"></td>
+      <td>0.0000</td>
+      <td>0.0000</td>
+      <td>-0.0264</td>
+      <td class ="right"></td>
+    </tr>
+    <tr Class="bottom row">
+    <td class="bottom-and-left"></td>
+      <td>-0.0019</td>
+      <td>0.0172</td>
+      <td>0.9995</td>
+      <td class="bottom-and-right"></td>
+    </tr>
+  </table>
+<p>Although many elements seem to be zero, they are not completely zero. They are very small, and for the purpose of illustration, the fundamental matrix is multiplied by a factor of 1000, and the resulting matrix looks like this:</p>
+<table cellspacing="2.5">
+    <tr>
+      <td class="top-and-left"></td>
+      <td>-0.0005</td>
+      <td>0.0088</td>
+      <td>-0.9074</td>
+      <td class="top-and-right"></td>
+    </tr>
+    <tr>
+      <td class="left"></td>
+      <td>0.0079</td>
+      <td>0.0012</td>
+      <td>-26.4235</td>
+      <td class ="right"></td>
+    </tr>
+    <tr Class="bottom row">
+    <td class="bottom-and-left"></td>
+      <td>-1.8860</td>
+      <td>17.2333</td>
+      <td>999.5001</td>
+      <td class="bottom-and-right"></td>
+    </tr>
+  </table>
+  <p>The resulting fundamental matrix was used to determine the epipolar lines corresponding to the differents points, and the result is presented below:</p>
+<table border=1>
+<tr>
+<td>
+<img src="proj3_part2_im1.jpg" width="95%"/>
+<img src="proj3_part2_im2.jpg"  width="95%"/>
+</td>
+</tr>
+<CAPTION>Epipolar lines on base image pair</CAPTION>
+</table>
+<p>In the attempt to improve the results, the coordinates were normalized so that the fundamental matrix would give better results. In order to normalize coordinates, each homogeneous coordinate is multiplied by a transformation matrix T. This transformation matrix itself result from the product of two matrices, the scale matrix S and the offset matrix O.</p>
+<p>S is given as:</p>
+<table cellspacing="2.5">
+    <tr>
+      <td class="top-and-left"></td>
+      <td>s</td>
+      <td>0</td>
+      <td>0</td>
+      <td class="top-and-right"></td>
+    </tr>
+    <tr>
+      <td class="left"></td>
+      <td>0</td>
+      <td>s</td>
+      <td>0</td>
+      <td class ="right"></td>
+    </tr>
+    <tr Class="bottom row">
+    <td class="bottom-and-left"></td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td class="bottom-and-right"></td>
+    </tr>
+  </table>
+<p>Where s is the scale factor. It is obtain by computing the reciprocal of the standard deviation of all the coordinates from 1 image</p>
+<p>The offset is given as:</p>
+<table cellspacing="2.5">
+    <tr>
+      <td class="top-and-left"></td>
+      <td>1</td>
+      <td>0</td>
+      <td>-c<sub>u</sub></td>
+      <td class="top-and-right"></td>
+    </tr>
+    <tr>
+      <td class="left"></td>
+      <td>0</td>
+      <td>1</td>
+      <td>-c<sub>v</sub></td>
+      <td class ="right"></td>
+    </tr>
+    <tr Class="bottom row">
+    <td class="bottom-and-left"></td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td class="bottom-and-right"></td>
+    </tr>
+  </table>
+<p>Where c<sub>u</sub> and c<sub>v</sub> are the mean coordinate</p> 
+<p>A different scale matrix as well as a different offset matrix was computed for each image. All the different parameters are in the table below:</p>
+
+<table style="border: 1px solid black;" width ="50%">
+  <tr>
+    <th style="border: 1px solid black;">Image</th>
+    <th style="border: 1px solid black;">c<sub>u</sub></th> 
+    <th style="border: 1px solid black;">c<sub>v</sub></th>
+    <th style="border: 1px solid black;">s</th>
+  </tr>
+  <tr>
+    <td style="border: 1px solid black;">a</td>
+    <td style="border: 1px solid black;">558.95</td>
+    <td style="border: 1px solid black;">325.60</td>
+    <td style="border: 1px solid black;">0.0045</td>
+  </tr>
+  <tr>
+    <td style="border: 1px solid black;">b</td>
+    <td style="border: 1px solid black;">616.70</td>
+    <td style="border: 1px solid black;">346.90</td>
+    <td style="border: 1px solid black;">0.0041</td>
+  </tr>
+</table>
+<p>After the fundamental matrix is estimated from normalized coordinates, it is multiplied by the two transformation matrices so that it operates well on original coordinates.</p>
+<table class="eq" summary="Equation and its number." width="100%">
+<tr>
+<td>F<sub>orig</sub> = T<sub>b</sub><sup>T</sup> * F<sub>norm</sub> * T<sub>a</sub></td>
+<th align="right" valign="bottom">(12)</th>
+</tr>
+</table>
+<p>The obtained fundamental matrix is given as </p>
+<table cellspacing="2.5">
+    <tr>
+      <td class="top-and-left"></td>
+      <td>-0.0000</td>
+      <td>0.0000</td>
+      <td>-0.0000</td>
+      <td class="top-and-right"></td>
+    </tr>
+    <tr>
+      <td class="left"></td>
+      <td>0.0000</td>
+      <td>-0.0000</td>
+      <td>-0.0034</td>
+      <td class ="right"></td>
+    </tr>
+    <tr Class="bottom row">
+    <td class="bottom-and-left"></td>
+      <td>-0.0003</td>
+      <td>0.0029</td>
+      <td>0.0391</td>
+      <td class="bottom-and-right"></td>
+    </tr>
+  </table>
+  <p>Once again to see that some of the numbers are very small, but not equal to 0, the matrix is multiplied by a factor of 1000</p>
+<table cellspacing="2.5">
+    <tr>
+      <td class="top-and-left"></td>
+      <td>-0.0001</td>
+      <td>0.0009</td>
+      <td>-0.0249</td>
+      <td class="top-and-right"></td>
+    </tr>
+    <tr>
+      <td class="left"></td>
+      <td>0.0013</td>
+      <td>-0.0002</td>
+      <td>-3.3544</td>
+      <td class ="right"></td>
+    </tr>
+    <tr Class="bottom row">
+    <td class="bottom-and-left"></td>
+      <td>-0.3498</td>
+      <td>2.8875</td>
+      <td>39.1385</td>
+      <td class="bottom-and-right"></td>
+    </tr>
+  </table>
+  <p>The epipolar lines obtained using this fundamental matrix are a little bit better than the ones obtained with the unnormalized fundamental matrix, but it is hard to see the difference.</p>
+<table border=1>
+<tr>
+<td>
+<img src="proj3_part2_im1_norm.jpg" width="95%"/>
+<img src="proj3_part2_im2_norm.jpg"  width="95%"/>
+</td>
+</tr>
+<CAPTION>Epipolar lines on base image pair obtained using the fundamental matrix estimated from normalized coordinates</CAPTION>
+</table>
+
+<p> </p>  
+
+<h3>Part III: Fundamental Matrix Estimation Implementaion using RANSAC</h3>
+
+<p>  </p>
+<p>Realistically, perfect matching point correspondence will not be available, so a method called RANSAC is used to find the best fundamental matrix given a set of potential matching points coming from two scenes images. VLFeat is used to get unreliable point correspondences computed with SIFT.
+Given that 8 points are needed to fit a model for the fundamental matrix, RANSAC samples 8 potential matching pairs of points, then it estimates a fundamental matrix. The resulting fundamental matrix is used to determine the ratio of pair of matching points that agree with the obtained model. In order to determine if a pair of points agrees with F, the multiplication  x<sup>T</sup> * F * x<sup>'</sup> is computed. For a pair of points that completely agrees with F, the multiplication results in 0. Since the pair of points are not perfect match, the threshold will be higher than 0. In this case 0.5 was used as the threshold. </p>
+<p>Below are pair of images on which some of the epipolar lines are shown. For each pair, the epipolar lines obtained using the fundamental matrix estimated from unnormalized coordinates is shown, and the ones obtained using the fundamental matrix estimated from normalized coordinates is presented. It is hard to see the difference, but when unnormalized coordinates are used, there are more outliers than when normalized coordinates are used.</p>
+<table border=1>
+<tr>
+<td>
+<img src="proj3_part3_im1_rush.jpg" width="95%"/>
+<img src="proj3_part3_im2_rush.jpg"  width="95%"/>
+</td>
+</tr>
+<CAPTION>Epipolar lines on Mount Rush image pair obtained using the fundamental matrix estimated from
+unnormalized coordinates</CAPTION>
+</table>
+<p> </p>  
+<table border=1>
+<tr>
+<td>
+<img src="proj3_part3_im1_rush_norm.jpg" width="95%"/>
+<img src="proj3_part3_im2_rush_norm.jpg"  width="95%"/>
+</td>
+</tr>
+<CAPTION>Epipolar lines on Mount Rush image pair obtained using the fundamental matrix estimated from normalized coordinates</CAPTION>
+</table>
+<p> </p>
+<table border=1>
+<tr>
+<td>
+<img src="proj3_part3_woodruff_im1.jpg" width="95%"/>
+<img src="proj3_part3_woodruff_im2.jpg"  width="95%"/>
+</td>
+</tr>
+<CAPTION>Epipolar lines on Woodruff dorm image pair obtained using the fundamental matrix estimated from unnormalized coordinates</CAPTION>
+</table>
+<p> </p>
+<table border=1>
+<tr>
+<td>
+<img src="proj3_part3_woodruff_im1_norm.jpg" width="95%"/>
+<img src="proj3_part3_woodruff_im2_norm.jpg"  width="95%"/>
+</td>
+</tr>
+<CAPTION>Epipolar lines on Woodruff dorm image pair obtained using the fundamental matrix estimated from normalized coordinates</CAPTION>
+</table>
+<p> </p>
+<table border=1>
+<tr>
+<td>
+<img src="proj3_part3_ND_im1.jpg" width="95%"/>
+<img src="proj3_part3_ND_im2.jpg"  width="95%"/>
+</td>
+</tr>
+<CAPTION>Epipolar lines on Notre Dame image pair obtained using the fundamental matrix estimated from unnormalized coordinates</CAPTION>
+</table>
+<p> </p>
+<table border=1>
+<tr>
+<td>
+<img src="proj3_part3_ND_im1_norm.jpg" width="95%"/>
+<img src="proj3_part3_ND_im2_norm.jpg"  width="95%"/>
+</td>
+</tr>
+<CAPTION>Epipolar lines on Notre Dame image pair obtained using the fundamental matrix estimated from normalized coordinates</CAPTION>
+</table>
+<p> </p>
+<table border=1>
+<tr>
+<td>
+<img src="proj3_part3_EG_im1.jpg" width="95%"/>
+<img src="proj3_part3_EG_im2.jpg"  width="95%"/>
+</td>
+</tr>
+<CAPTION>Epipolar lines on Episcopal Gaudi image pair obtained using the fundamental matrix estimated from unnormalized coordinates</CAPTION>
+<p>  </p>
+</table>
+<table border=1>
+<tr>
+<td>
+<img src="proj3_part3_EG_im1_norm.jpg" width="95%"/>
+<img src="proj3_part3_EG_im2_norm.jpg"  width="95%"/>
+</td>
+</tr>
+<CAPTION>Epipolar lines on Episcopal Gaudi image pair obtained using the fundamental matrix estimated from normalized coordinates</CAPTION>
+</table>
+<p>  </p>
+<p>  </p>
+</body>
+</html>
