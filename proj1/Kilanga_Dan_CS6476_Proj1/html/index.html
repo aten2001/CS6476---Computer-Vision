@@ -1,0 +1,343 @@
+<html>
+<head>
+<title>Computer Vision Project</title>
+<link href='http://fonts.googleapis.com/css?family=Nunito:300|Crimson+Text|Droid+Sans+Mono' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" title="Default" href="styles/github.css">
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>  
+
+<link rel="stylesheet" href="highlighting/styles/default.css">
+<script src="highlighting/highlight.pack.js"></script>
+
+<style type="text/css">
+body {
+	margin: 0px;
+	width: 100%;
+	font-family: 'Crimson Text', serif;
+	font-size: 20px;
+	background: #fcfcfc;
+}
+h1 {
+	font-family: 'Nunito', sans-serif;
+	font-weight: normal;
+	font-size: 28px;
+	margin: 25px 0px 0px 0px;
+	text-transform: lowercase;
+
+}
+
+h2 {
+	font-family: 'Nunito', sans-serif;
+	font-weight: normal;
+	font-size: 32px;
+	margin: 15px 0px 35px 0px;
+	color: #333;	
+	word-spacing: 3px;
+}
+
+h3 {
+	font-family: 'Nunito', sans-serif;
+	font-weight: normal;
+	font-size: 26px;
+	margin: 10px 0px 10px 0px;
+	color: #333;
+	word-spacing: 2px;
+}
+h4 {
+	font-family: 'Nunito', sans-serif;
+	font-weight: normal;
+	font-size: 22px;
+	margin: 10px 0px 10px 0px;
+	color: #333;
+	word-spacing: 2px;
+}
+
+h5 {
+	font-family: 'Nunito', sans-serif;
+	font-weight: normal;
+	font-size: 18px;
+	margin: 10px 0px 10px 0px;
+	color: #111;
+	word-spacing: 2px;
+}
+
+p, li {
+	color: #444;
+}
+
+a {
+	color: #DE3737;
+}
+
+.container {
+	margin: 0px auto 0px auto;
+	width: 960px;
+}
+
+#header {
+	background: #333;
+	width: 100%;
+}
+
+#headersub {
+	color: #ccc;
+	width: 960px;
+	margin: 0px auto 0px auto;
+	padding: 20px 0px 20px 0px;
+}
+
+.chart {
+	width: 480px;
+}
+.lol {
+	font-size: 16px;
+	color: #888;
+	font-style: italic;
+}
+.sep {
+	height: 1px;
+	width: 100%;
+	background: #999;
+	margin: 20px 0px 20px 0px;
+}
+.footer{
+	font-size: 16px;
+}
+.latex {
+	width: 100%;
+}
+
+.latex img {
+	display: block;
+	margin: 0px auto 0px auto;
+}
+
+pre {
+	font-family: 'Droid Sans Mono';
+	font-size: 14px;
+}
+
+td img {
+  vertical-align: middle;
+}
+
+#contents a {
+}
+</style>
+<script type="text/javascript">
+    hljs.initHighlightingOnLoad();
+</script>
+</head>
+<body>
+<div id="header" >
+<div id="headersub">
+<h1><span style="color: #DE3737">Dan Monga Kilanga</span></h1>
+</div>
+</div>
+<div class="container">
+
+<h2>Project 1: Image Filtering and Hybrid Images</h2>
+
+
+<h3>Introduction</h3>
+
+<p> 	</p>
+
+<p> In this project, the required tasks consisted of reproducing the MATLAB function "imfilter" with all its default settings, and to use the resulting function in order to filter pair of images that are used to create hybrid images.</p>
+
+<h3>Function "my_imfilter" Implementation</h3>
+<p> 	One of the function's requirements was that both the width and length of the input filter be odd; this is to avoid ending up in an ambiguous situation where the matrix of the filter does not have an entire cell as its center. Thus, the function "my_imfilter" first checks that the dimensions of the input filter satisfies this requirement; otherwise, it displays a string saying "The dimensions of your filter have to be odd". If the first requirement is met, then the function searches for the coordinates of the input filter's center cell which are used to compute how many rows and columns of zeros should be added on the top (bottom) and left (right) of the original image during the zero-padding phase. The number of rows (columns) is obtained by subtraction the first (second) coordinate of the filter's center cell from the row (column) dimension of the filter.
+Since the function is required to be able to process both color and grayscale images, the function "my_imfilter" checks whether or not the input image has 3 channels. If it does, then the pixel are processed as 3 dimensional vector in order to reduce running time.</p>
+<div style="clear:both">
+
+<h3>Hybrid Image Implementation and Results Discussion</h3>
+<p>In order to create a hybrid image using two different images, "my_imfilter" is used to filter out high frequencies from one image and low frequencies from the other image before combining the two resulting images into the wanted hybrid image. However, the filter cut-off frequency has to be tunned for each pair of pictures to get a good effect.</p>
+
+<h5>Cat and Dog Hybrid Image</h5>
+<p>The cut-off frequency of 7 given in the starter code happens to give the best result obtained for the combination of the cat and dog images. At the lower cut-off frequency of 4, the resulting hybrid image tend to the image a dog while at the higher cut-off frequency 25, the hybrid image looks more like a cat. Results are show in the figure below</p>
+
+<table border=1>
+<tr>
+<td>
+<img src="hybrid_image_scales_cd7.jpg" width="100%"/>
+</td>
+</tr>
+<CAPTION>Cat and Dog hyrbid image obtained using cut-off frequency of 7 </CAPTION>
+</table>
+
+<p> </p>
+
+<table border=1>
+<tr>
+<td>
+<img src="hybrid_image_scales_cd4.jpg" width="100%"/>
+</td>
+</tr>
+<CAPTION>Cat and Dog hyrbid image obtained using cut-off frequency of 4 </CAPTION>
+</table>
+
+<p> </p>
+
+<table border=1>
+<tr>
+<td>
+<img src="hybrid_image_scales_cd25.jpg" width="100%"/>
+</td>
+</tr>
+<CAPTION>Cat and Dog hyrbid image obtained using cut-off frequency of 25 </CAPTION>
+</table>
+
+<h5>Einstein and Marilyn Hybrid Image</h5>
+<p>Since the first case gave a pretty good result with the cut-off frequency of 7, this cut-off frequency was the first tried for the pair Einstein and Marilyn, but this time the result was not as good as that of the first pair. Although the hydridization worked, Marilyn's image was more dominant than Einstein's. The lower cut-off frequency of 4 gave a relatively better result while the higher cut-off frequency of 15 gave an image of Marilyn and almost no Einstein except in the smaller scale at the bottom. Results are shown in the figures below  </p>
+
+<table border=1>
+<tr>
+<td>
+<img src="hybrid_image_scales_em7.jpg" width="100%"/>
+</td>
+</tr>
+
+<CAPTION>Einstein and Marilyn hyrbid image obtained using cut-off frequency of 7 </CAPTION>
+</table>
+
+<p> </p>
+
+<table border=1>
+<tr>
+<td>
+<img src="hybrid_image_scales_em4.jpg" width="100%"/>
+</td>
+</tr>
+<CAPTION>Einstein and Marilyn hyrbid image obtained using cut-off frequency of 4 </CAPTION>
+</table>
+
+<p> </p>
+
+<table border=1>
+<tr>
+<td>
+<img src="hybrid_image_scales_em15.jpg" width="100%"/>
+</td>
+</tr>
+<CAPTION>Einstein and Marilyn hyrbid image obtained using cut-off frequency of 15 </CAPTION>
+</table>
+
+<p>  </p>
+
+<h5>Bird and Plane Hybrid Image</h5>
+<p>Once again, starting from the best cut-off frequency used in the previous case, i.e. 4, the result didn't seem very convincing, so a higher cut-off frequency, 11.5, and a lower cut-off frequency, 3, were tried. With the lower cut-off frequency, the hybrid image was dominated by the bird while in the instance of the higher cut-off frequency, the hybrid image was dominated by the plane. Taking a value close to the middle seemed judicious, so 7 was used, but the hybrid image was still dominated by the plane. Thus, the cut-off frequency was reduced to 5.5 which gave a reasonable result.  </p>
+
+<table border=1>
+<tr>
+<td>
+<img src="hybrid_image_scales_bp4.jpg" width="100%"/>
+</td>
+</tr>
+<CAPTION>Bird and Plane hyrbid image obtained using cut-off frequency of 4 </CAPTION>
+</table>
+
+<p> </p>
+
+<table border=1>
+<tr>
+<td>
+<img src="hybrid_image_scales_bp11_5.jpg" width="100%"/>
+</td>
+</tr>
+<CAPTION>Bird and Plane hyrbid image obtained using cut-off frequency of 11.5 </CAPTION>
+</table>
+
+<p>  </p>
+
+<table border=1>
+<tr>
+<td>
+<img src="hybrid_image_scales_bp3.jpg" width="100%"/>
+</td>
+</tr>
+<CAPTION>Bird and Plane hyrbid image obtained using cut-off frequency of 3 </CAPTION>
+</table>
+
+<p>  </p>
+
+<table border=1>
+<tr>
+<td>
+<img src="hybrid_image_scales_bp7.jpg" width="100%"/>
+</td>
+</tr>
+<CAPTION>Bird and Plane hyrbid image obtained using cut-off frequency of 7 </CAPTION>
+</table>
+
+<p>  </p>
+
+<table border=1>
+<tr>
+<td>
+<img src="hybrid_image_scales_bp5_5.jpg" width="100%"/>
+</td>
+</tr>
+<CAPTION>Bird and Plane hyrbid image obtained using cut-off frequency of 5.5 </CAPTION>
+</table>
+
+<h5>Bicycle and Motorcycle Hybrid Image</h5>
+<p>For the bicycle and the motorcycle, a cut-off frequency of 4 resulted into a hybrid image which looks more like a bicycle while on the other hand a cut-off frequency of 12 resulted into an image showing a motorcycle. Choosing a value close to the middle of these 2 cut-off frequencies, 7 gave a satisfying result as shown below  </p>
+
+<table border=1>
+<tr>
+<td>
+<img src="hybrid_image_scales_bm4.jpg" width="100%"/>
+</td>
+</tr>
+<CAPTION>Bicycle and Motorcycle hyrbid image obtained using cut-off frequency of 4 </CAPTION>
+</table>
+
+<p>  </p>
+
+<table border=1>
+<tr>
+<td>
+<img src="hybrid_image_scales_bm12.jpg" width="100%"/>
+</td>
+</tr>
+<CAPTION>Bicycle and Motorcycle hyrbid image obtained using cut-off frequency of 12 </CAPTION>
+</table>
+
+<p>  </p>
+
+<table border=1>
+<tr>
+<td>
+<img src="hybrid_image_scales_bm7.jpg" width="100%"/>
+</td>
+</tr>
+<CAPTION>Bicycle and Motorcycle hyrbid image obtained using cut-off frequency of 7 </CAPTION>
+</table>
+
+<h5>Fish and Submarine Hybrid Image</h5>
+<p>Creating the hybrid image of the fish and the submarine was a bit tricky as the submarine's color tend to fade and be indistinguishable from the color of water. Starting with the cut-off frequency of 4, the hybrid image looks more like the image of the fish. The cut-off frequency was incremented up to 15 which yield a reasonable hybrid image. The results are shown below   </p>
+
+<table border=1>
+<tr>
+<td>
+<img src="hybrid_image_scales_fs4.jpg" width="100%"/>
+</td>
+</tr>
+<CAPTION>Fish and Submarine hyrbid image obtained using cut-off frequency of 4 </CAPTION>
+</table>
+
+<table border=1>
+<tr>
+<td>
+<img src="hybrid_image_scales_fs15.jpg" width="100%"/>
+</td>
+</tr>
+<CAPTION>Fish and Submarine hyrbid image obtained using cut-off frequency of 15 </CAPTION>
+</table>
+
+<p>  </p>
+
+<div style="clear:both" >
+<p> 	</p>
+</div>
+</body>
+</html>
