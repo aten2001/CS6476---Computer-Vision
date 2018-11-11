@@ -1,0 +1,614 @@
+<html>
+<head>
+<title>Recognition with Bag of Words</title>
+<link href='http://fonts.googleapis.com/css?family=Nunito:300|Crimson+Text|Droid+Sans+Mono' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" title="Default" href="styles/github.css">
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>  
+
+<link rel="stylesheet" href="highlighting/styles/default.css">
+<script src="highlighting/highlight.pack.js"></script>
+
+<style type="text/css">
+body {
+	margin: 0px;
+	width: 100%;
+	font-family: 'Crimson Text', serif;
+	font-size: 20px;
+	background: #fcfcfc;
+}
+h1 {
+	font-family: 'Nunito', sans-serif;
+	font-weight: normal;
+	font-size: 28px;
+	margin: 25px 0px 0px 0px;
+	text-transform: lowercase;
+
+}
+
+h2 {
+	font-family: 'Nunito', sans-serif;
+	font-weight: normal;
+	font-size: 32px;
+	margin: 15px 0px 35px 0px;
+	color: #333;	
+	word-spacing: 3px;
+}
+
+h3 {
+	font-family: 'Nunito', sans-serif;
+	font-weight: normal;
+	font-size: 26px;
+	margin: 10px 0px 10px 0px;
+	color: #333;
+	word-spacing: 2px;
+}
+h4 {
+	font-family: 'Nunito', sans-serif;
+	font-weight: normal;
+	font-size: 22px;
+	margin: 10px 0px 10px 0px;
+	color: #333;
+	word-spacing: 2px;
+}
+
+h5 {
+	font-family: 'Nunito', sans-serif;
+	font-weight: normal;
+	font-size: 18px;
+	margin: 10px 0px 10px 0px;
+	color: #111;
+	word-spacing: 2px;
+}
+
+p, li {
+	color: #444;
+}
+
+a {
+	color: #DE3737;
+}
+
+.container {
+	margin: 0px auto 0px auto;
+	width: 1160px;
+}
+
+#header {
+	background: #333;
+	width: 100%;
+}
+
+#headersub {
+	color: #ccc;
+	width: 960px;
+	margin: 0px auto 0px auto;
+	padding: 20px 0px 20px 0px;
+}
+
+.chart {
+	width: 480px;
+}
+.lol {
+	font-size: 16px;
+	color: #888;
+	font-style: italic;
+}
+.sep {
+	height: 1px;
+	width: 100%;
+	background: #999;
+	margin: 20px 0px 20px 0px;
+}
+.footer{
+	font-size: 16px;
+}
+.latex {
+	width: 100%;
+}
+
+.latex img {
+	display: block;
+	margin: 0px auto 0px auto;
+}
+
+pre {
+	font-family: 'Droid Sans Mono';
+	font-size: 14px;
+}
+
+table td {
+  text-align: center;
+  vertical-align: middle;
+}
+
+table td img {
+  text-align: center;
+  vertical-align: middle;
+}
+
+#contents a {
+}
+</style>
+<script type="text/javascript">
+    hljs.initHighlightingOnLoad();
+</script>
+</head>
+<body>
+<div id="header" >
+<div id="headersub">
+<h1>Dan Monga Kilanga</h1>
+</div>
+</div>
+<div class="container">
+
+<h2>Project 4 / Scene Recognition with Bag of Words</h2>
+
+
+<h3>Introduction</h3>
+
+<p>  </p>
+
+<p>The main objective of this project was to get familiar with image recognition, which was done through a combination of different features and classifiers. Two kinds of features were implemented; tiny images and bag of words. These features were used in combination with the 2 implemented classifiers; nearest neighbor classification and support vector machines.</p>
+
+<h3>Function "get_tiny_images" Implementation</h3>
+
+<p>  </p>
+
+<p>Tiny images features were very simple to implement. The process consisted of resizing images to a small and fixed resolution, and in this case the chosen size was 16 by 16. The function checked if the image is a color image, and if it is, the image is changed to gray scale. Furthermore, the image is reshaped into a 1 by 256 vector before subtracting the mean from each of its element. After creating feature vectors, they were normalized.</p>
+
+<h3>Function "nearest_neighbor_classify" Implementation</h3>
+
+<p>  </p>
+
+<p>The nearest neighbor classifier is one of the simplest classifier to understand and implement. It assigns to the testing data point the same label as the nearest training data point. In some cases k nearest neighbors performs better as it assigns to the testing data the same label as the majority of its k nearest neighbors. However having k greater than 1 did not yield any improvement on the combination tiny images and k nearest neighbors. A couple of values were tested for k, and the results are presented below </p>
+
+<table style="border: 1px solid black;" width ="50%">
+  <tr>
+    <th style="border: 1px solid black;">k</th>
+    <th style="border: 1px solid black;">Arruracy</th>
+  </tr>
+  <tr>
+    <td style="border: 1px solid black;">1</td>
+    <td style="border: 1px solid black;">0.203</td>
+  </tr>
+  <tr>
+    <td style="border: 1px solid black;">2</td>
+    <td style="border: 1px solid black;">0.203</td>
+  </tr>
+  <tr>
+    <td style="border: 1px solid black;">3</td>
+    <td style="border: 1px solid black;">0.203</td>
+  </tr>
+  <tr>
+    <td style="border: 1px solid black;">4</td>
+    <td style="border: 1px solid black;">0.199</td>
+  </tr>
+  <tr>
+    <td style="border: 1px solid black;">5</td>
+    <td style="border: 1px solid black;">0.201</td>
+  </tr>
+  <tr>
+    <td style="border: 1px solid black;">6</td>
+    <td style="border: 1px solid black;">0.201</td>
+  </tr>
+  <tr>
+    <td style="border: 1px solid black;">7</td>
+    <td style="border: 1px solid black;">0.202</td>
+  </tr>
+  <tr>
+    <td style="border: 1px solid black;">8</td>
+    <td style="border: 1px solid black;">0.203</td>
+  </tr>
+</table>
+<p></p>
+
+<h3> Function "build_vocabulary" Implementation </h3>
+
+<p>Tiny images are not very good features, so better features had to be constructed, and in this project the more sophisticated features were bag of words. However, before making these new features, a vocabulary of words had to be constructed. The process consisted of getting dense SIFT descriptors from training images, in our case, about 150000, and perform kmeans clustering to partition the SIFT descriptors into k clusters. The centroids of the obtained clusters form the vocabulary. The code is presented below</p>
+
+<pre><code>
+function vocab = build_vocabulary( image_paths, vocab_size )
+N = size(image_paths,1);
+Step = 4;
+binSize = 8;
+sampled_features = [];
+for indx=1:N
+    img = imread(image_paths{indx,1});
+    if size(img,3) == 3
+        img = rgb2gray(img);
+    end
+    img = single(double(img));
+    [~, SIFT_features] = vl_dsift(img, 'Step', Step, 'Size', binSize, 'fast');
+    dim = size(SIFT_features,2);
+    if dim > 100
+        indices = randsample(dim, 100);
+        sampled_features = [sampled_features SIFT_features(:,indices)];
+    else
+        sampled_features = [sampled_features SIFT_features];
+    end
+end
+
+sampled_features = single(sampled_features);
+[vocab,~] = vl_kmeans(sampled_features, vocab_size);
+vocab = vocab';
+end
+</code></pre>
+<p></p>
+
+<h3>Function "get_bags_of_sifts" Implementation</h3>
+
+<p></p>
+<p>This process was simple as well; it consisted of  densely sampling many SIFT descriptors from every image and computing the distance between each descriptor and each of the centroids obtained when building the vocabulary. The descriptor is assigned to the cluster from which it is closest. A histogram having the same number of bins as the number of words in the vocabulary counts how many times a descriptor is assigned to a cluster. After every descriptor from the image has been assigned to a bin, the histogram is normalized, and the normalized histogram becomes the vector of features representing the image. All the SIFT descriptors sampling is done at a step size of 4 and bin size of 8. The code is presented below </p>
+<pre><code>
+function image_feats = get_bags_of_sifts(image_paths)
+load('vocab.mat')
+vocab_size = size(vocab, 1);
+N = size(image_paths,1);
+Step = 8;
+binSize = 8;
+image_feats = zeros(N, vocab_size);
+for indx=1:N
+    img = imread(image_paths{indx,1});
+    if size(img,3) == 3
+        img = rgb2gray(img);
+    end
+    img = single(double(img));
+   [~, SIFT_features] = vl_dsift(img, 'Step', Step, 'Size', binSize, 'fast');
+   % Level 0 computation
+   distances = vl_alldist2(vocab', single(SIFT_features), 'CHI2');
+   [~,ii] = min(distances, [], 1);
+   [u, ~, uidx] = unique(ii);
+   counts = accumarray(uidx,1);
+   image_feats(indx,u) = image_feats(indx,u) + counts';
+end
+image_feats = normr(image_feats);
+end
+</code></pre>
+<p></p>
+
+<p>When using the combination of bag of words and nearest neighbor, two size vocabulary were used, and the result with different k's is presented in the table below</p>
+
+<table style="border: 1px solid black;" width ="50%">
+  <tr>
+    <th style="border: 1px solid black;">k</th>
+    <th style="border: 1px solid black;">Arruracy size 200</th>
+    <th style="border: 1px solid black;">Arruracy size 250</th>
+  </tr>
+  <tr>
+    <td style="border: 1px solid black;">1</td>
+    <td style="border: 1px solid black;">0.499</td>
+    <td style="border: 1px solid black;">0.506</td>
+  </tr>
+  <tr>
+    <td style="border: 1px solid black;">2</td>
+    <td style="border: 1px solid black;">0.499</td>
+    <td style="border: 1px solid black;">0.506</td>
+  </tr>
+  <tr>
+    <td style="border: 1px solid black;">3</td>
+    <td style="border: 1px solid black;">0.499</td>
+    <td style="border: 1px solid black;">0.506</td>
+  </tr>
+  <tr>
+    <td style="border: 1px solid black;">4</td>
+    <td style="border: 1px solid black;">0.515</td>
+    <td style="border: 1px solid black;">0.514</td>
+  </tr>
+  <tr>
+    <td style="border: 1px solid black;">5</td>
+    <td style="border: 1px solid black;">0.507</td>
+    <td style="border: 1px solid black;">0.509</td>
+  </tr>
+  <tr>
+    <td style="border: 1px solid black;">6</td>
+    <td style="border: 1px solid black;">0.515</td>
+    <td style="border: 1px solid black;">0.517</td>
+  </tr>
+  <tr>
+    <td style="border: 1px solid black;">7</td>
+    <td style="border: 1px solid black;">0.511</td>
+    <td style="border: 1px solid black;">0.511</td>
+  </tr>
+  <tr>
+    <td style="border: 1px solid black;">8</td>
+    <td style="border: 1px solid black;">0.519</td>
+    <td style="border: 1px solid black;">0.517</td>
+  </tr>
+</table>
+<p>A larger vocabulary improves the performance for lower values of k (i.e. 1,2,3); however, for the higher values of k, its influence on the results fluctuate. There are cases where it improves the behavior and cases where it make it worse. I believe k=4 is a reasonable value as higher values might just lead to overfitting to this specific test data.</p>
+<p></p>
+
+<h3>Function "svm_classify" Implementation</h3>
+<p></p>
+
+<p>Nearest neighbor does not yield the best performance possible on these train data and test data. A more porwerful classifier, support vectors machine, was developed in order to improve the results. SVM is a linear classifier that attempt to separate data into two groups by a hyperplane. Since in this case, there are 15 categories, then 15 SVMs had to be trained. The code is presented below</p>
+
+<pre><code>
+function predicted_categories = svm_classify(train_image_feats, train_labels, test_image_feats)
+categories = unique(train_labels); 
+num_categories = length(categories);
+
+
+N = size(train_image_feats,1);
+d = size(train_image_feats,2);
+num_train_data = floor(0.8*N);
+indices = randsample(N,N);
+train_data = train_image_feats(indices(1:num_train_data),:);
+train_data_labels = train_labels(indices(1:num_train_data),1);
+hold_data = train_image_feats(indices(num_train_data+1:end),:);
+hold_data_labels = train_labels(indices(num_train_data+1:end),1);
+W_all = zeros(d,num_categories);
+B_all = zeros(1,num_categories);
+for indx=1:num_categories
+    labels = double(strcmp(categories(indx), train_data_labels));
+    idx = (labels == 0);
+    labels(idx) = -1;
+    [W, B] = vl_svmtrain(train_data', labels',0.0009);
+    W_all(:,indx) = W;
+    B_all(indx) = B;
+end
+W_a = [W_all' B_all'];
+% hold_data = [hold_data ones(size(hold_data,1),1)]';
+% decisions = W_a*hold_data;
+% [~, ii] = max(decisions, [], 1);
+% predicted = categories(ii,1);
+% result = double(strcmp(predicted, hold_data_labels));
+% sum(result)/length(result)
+% predicted_categories = train_labels;
+
+test_image_feats = [test_image_feats ones(size(test_image_feats,1),1)]';
+decisions = W_a*test_image_feats;
+[~, ii] = max(decisions, [], 1);
+predicted_categories = categories(ii,1);
+end
+</code></pre>
+<p></p>
+<p>Some part of the code is commented out because it was used to tune the parameter lambda. The training data was split in two part; 80% were used for training purposes, and 20% was held out for testing purposes until a good parameter of lambda was found. At every iteration, the split was done randomly so that the parameter wouldn't result from overfitting the held out set. The value of lambda that was judged to yield the best performance was around 0.0009.</p>
+<p>After lambda was tuned, performance was tested on vocabulary of size 200 and 250. Instead of using the fixed test/train split provided by the starter code, 500 training examples and 100 testing examples were randomly sample from the provided data to test performance, and this was done 6 times to ensure that the classifier was really working properly and not overfitting one set of examples. In the case of 200 words vocabulary, the average accuracy was 0.622 with a standard deviation of 0.023. On the other hand, the case of 250 words vocabulary lead to an average accuracy of 0.612 with a standard deviation of 0.018. The data are shown in the table below</p>
+<table style="border: 1px solid black;" width ="50%">
+  <tr>
+    <th style="border: 1px solid black;">Arruracy size 200</th>
+    <th style="border: 1px solid black;">Arruracy size 250</th>
+  </tr>
+  <tr>
+    <td style="border: 1px solid black;">0.660</td>
+    <td style="border: 1px solid black;">0.610</td>
+  </tr>
+  <tr>
+    <td style="border: 1px solid black;">0.616</td>
+    <td style="border: 1px solid black;">0.580</td>
+  </tr>
+  <tr>
+    <td style="border: 1px solid black;">0.648</td>
+    <td style="border: 1px solid black;">0.630</td>
+  </tr>
+  <tr>
+    <td style="border: 1px solid black;">0.610</td>
+    <td style="border: 1px solid black;">0.620</td>
+  </tr>
+  <tr>
+    <td style="border: 1px solid black;">0.600</td>
+    <td style="border: 1px solid black;">0.630</td>
+  </tr>
+  <tr>
+    <td style="border: 1px solid black;">0.600</td>
+    <td style="border: 1px solid black;">0.600</td>
+  </tr>
+</table>
+<p>Performance slightly decreased with a bigger vocabulary; not being 100% sure on why this is the case, it is suspected that if lambda is tunned a little bit more, the bigger vocabulary will yield better results. Since performance was not improved by increasing the vocabulary size, another improvement angle was explored, and it consisted of using spatial information. A 3 level spatial pyramid was implemented in the attempt to improve the data, and it indeed resulted in a huge improvement. Since adding spatial information made the program run much longer. Only one iteration was tried, and the obtained result was an accuracy of 0.706</p>
+
+
+
+
+
+<center>
+<h1>Scene classification results visualization</h1>
+<img src="confusion_matrix.png">
+
+<br>
+Accuracy (mean of diagonal of confusion matrix) is 0.706
+<p>
+
+<table border=0 cellpadding=4 cellspacing=1>
+<tr>
+<th>Category name</th>
+<th>Accuracy</th>
+<th colspan=2>Sample training images</th>
+<th colspan=2>Sample true positives</th>
+<th colspan=2>False positives with true label</th>
+<th colspan=2>False negatives with wrong predicted label</th>
+</tr>
+<tr>
+<td>Kitchen</td>
+<td>0.560</td>
+<td bgcolor=LightBlue><img src="thumbnails/Kitchen_image_0193.jpg" width=100 height=75></td>
+<td bgcolor=LightBlue><img src="thumbnails/Kitchen_image_0055.jpg" width=112 height=75></td>
+<td bgcolor=LightGreen><img src="thumbnails/Kitchen_image_0024.jpg" width=57 height=75></td>
+<td bgcolor=LightGreen><img src="thumbnails/Kitchen_image_0093.jpg" width=99 height=75></td>
+<td bgcolor=LightCoral><img src="thumbnails/InsideCity_image_0071.jpg" width=75 height=75><br><small>InsideCity</small></td>
+<td bgcolor=LightCoral><img src="thumbnails/Industrial_image_0001.jpg" width=67 height=75><br><small>Industrial</small></td>
+<td bgcolor=#FFBB55><img src="thumbnails/Kitchen_image_0135.jpg" width=100 height=75><br><small>LivingRoom</small></td>
+<td bgcolor=#FFBB55><img src="thumbnails/Kitchen_image_0040.jpg" width=57 height=75><br><small>Industrial</small></td>
+</tr>
+<tr>
+<td>Store</td>
+<td>0.650</td>
+<td bgcolor=LightBlue><img src="thumbnails/Store_image_0137.jpg" width=93 height=75></td>
+<td bgcolor=LightBlue><img src="thumbnails/Store_image_0175.jpg" width=100 height=75></td>
+<td bgcolor=LightGreen><img src="thumbnails/Store_image_0003.jpg" width=100 height=75></td>
+<td bgcolor=LightGreen><img src="thumbnails/Store_image_0067.jpg" width=100 height=75></td>
+<td bgcolor=LightCoral><img src="thumbnails/Office_image_0183.jpg" width=109 height=75><br><small>Office</small></td>
+<td bgcolor=LightCoral><img src="thumbnails/InsideCity_image_0129.jpg" width=75 height=75><br><small>InsideCity</small></td>
+<td bgcolor=#FFBB55><img src="thumbnails/Store_image_0102.jpg" width=100 height=75><br><small>Kitchen</small></td>
+<td bgcolor=#FFBB55><img src="thumbnails/Store_image_0104.jpg" width=100 height=75><br><small>LivingRoom</small></td>
+</tr>
+<tr>
+<td>Bedroom</td>
+<td>0.350</td>
+<td bgcolor=LightBlue><img src="thumbnails/Bedroom_image_0216.jpg" width=100 height=75></td>
+<td bgcolor=LightBlue><img src="thumbnails/Bedroom_image_0111.jpg" width=116 height=75></td>
+<td bgcolor=LightGreen><img src="thumbnails/Bedroom_image_0157.jpg" width=90 height=75></td>
+<td bgcolor=LightGreen><img src="thumbnails/Bedroom_image_0004.jpg" width=101 height=75></td>
+<td bgcolor=LightCoral><img src="thumbnails/InsideCity_image_0133.jpg" width=75 height=75><br><small>InsideCity</small></td>
+<td bgcolor=LightCoral><img src="thumbnails/Industrial_image_0133.jpg" width=111 height=75><br><small>Industrial</small></td>
+<td bgcolor=#FFBB55><img src="thumbnails/Bedroom_image_0162.jpg" width=113 height=75><br><small>Mountain</small></td>
+<td bgcolor=#FFBB55><img src="thumbnails/Bedroom_image_0074.jpg" width=116 height=75><br><small>TallBuilding</small></td>
+</tr>
+<tr>
+<td>LivingRoom</td>
+<td>0.500</td>
+<td bgcolor=LightBlue><img src="thumbnails/LivingRoom_image_0172.jpg" width=114 height=75></td>
+<td bgcolor=LightBlue><img src="thumbnails/LivingRoom_image_0103.jpg" width=100 height=75></td>
+<td bgcolor=LightGreen><img src="thumbnails/LivingRoom_image_0004.jpg" width=100 height=75></td>
+<td bgcolor=LightGreen><img src="thumbnails/LivingRoom_image_0055.jpg" width=100 height=75></td>
+<td bgcolor=LightCoral><img src="thumbnails/Bedroom_image_0021.jpg" width=113 height=75><br><small>Bedroom</small></td>
+<td bgcolor=LightCoral><img src="thumbnails/Bedroom_image_0029.jpg" width=133 height=75><br><small>Bedroom</small></td>
+<td bgcolor=#FFBB55><img src="thumbnails/LivingRoom_image_0105.jpg" width=114 height=75><br><small>Office</small></td>
+<td bgcolor=#FFBB55><img src="thumbnails/LivingRoom_image_0007.jpg" width=109 height=75><br><small>Kitchen</small></td>
+</tr>
+<tr>
+<td>Office</td>
+<td>0.860</td>
+<td bgcolor=LightBlue><img src="thumbnails/Office_image_0136.jpg" width=111 height=75></td>
+<td bgcolor=LightBlue><img src="thumbnails/Office_image_0056.jpg" width=130 height=75></td>
+<td bgcolor=LightGreen><img src="thumbnails/Office_image_0106.jpg" width=121 height=75></td>
+<td bgcolor=LightGreen><img src="thumbnails/Office_image_0032.jpg" width=120 height=75></td>
+<td bgcolor=LightCoral><img src="thumbnails/Industrial_image_0068.jpg" width=94 height=75><br><small>Industrial</small></td>
+<td bgcolor=LightCoral><img src="thumbnails/Kitchen_image_0167.jpg" width=57 height=75><br><small>Kitchen</small></td>
+<td bgcolor=#FFBB55><img src="thumbnails/Office_image_0148.jpg" width=100 height=75><br><small>Bedroom</small></td>
+<td bgcolor=#FFBB55><img src="thumbnails/Office_image_0092.jpg" width=116 height=75><br><small>Suburb</small></td>
+</tr>
+<tr>
+<td>Industrial</td>
+<td>0.410</td>
+<td bgcolor=LightBlue><img src="thumbnails/Industrial_image_0088.jpg" width=112 height=75></td>
+<td bgcolor=LightBlue><img src="thumbnails/Industrial_image_0151.jpg" width=109 height=75></td>
+<td bgcolor=LightGreen><img src="thumbnails/Industrial_image_0069.jpg" width=71 height=75></td>
+<td bgcolor=LightGreen><img src="thumbnails/Industrial_image_0141.jpg" width=100 height=75></td>
+<td bgcolor=LightCoral><img src="thumbnails/Bedroom_image_0112.jpg" width=133 height=75><br><small>Bedroom</small></td>
+<td bgcolor=LightCoral><img src="thumbnails/TallBuilding_image_0056.jpg" width=75 height=75><br><small>TallBuilding</small></td>
+<td bgcolor=#FFBB55><img src="thumbnails/Industrial_image_0003.jpg" width=50 height=75><br><small>Store</small></td>
+<td bgcolor=#FFBB55><img src="thumbnails/Industrial_image_0066.jpg" width=123 height=75><br><small>Highway</small></td>
+</tr>
+<tr>
+<td>Suburb</td>
+<td>0.950</td>
+<td bgcolor=LightBlue><img src="thumbnails/Suburb_image_0130.jpg" width=113 height=75></td>
+<td bgcolor=LightBlue><img src="thumbnails/Suburb_image_0197.jpg" width=113 height=75></td>
+<td bgcolor=LightGreen><img src="thumbnails/Suburb_image_0162.jpg" width=113 height=75></td>
+<td bgcolor=LightGreen><img src="thumbnails/Suburb_image_0172.jpg" width=113 height=75></td>
+<td bgcolor=LightCoral><img src="thumbnails/Industrial_image_0026.jpg" width=97 height=75><br><small>Industrial</small></td>
+<td bgcolor=LightCoral><img src="thumbnails/OpenCountry_image_0044.jpg" width=75 height=75><br><small>OpenCountry</small></td>
+<td bgcolor=#FFBB55><img src="thumbnails/Suburb_image_0004.jpg" width=113 height=75><br><small>LivingRoom</small></td>
+<td bgcolor=#FFBB55><img src="thumbnails/Suburb_image_0171.jpg" width=113 height=75><br><small>Coast</small></td>
+</tr>
+<tr>
+<td>InsideCity</td>
+<td>0.800</td>
+<td bgcolor=LightBlue><img src="thumbnails/InsideCity_image_0005.jpg" width=75 height=75></td>
+<td bgcolor=LightBlue><img src="thumbnails/InsideCity_image_0185.jpg" width=75 height=75></td>
+<td bgcolor=LightGreen><img src="thumbnails/InsideCity_image_0033.jpg" width=75 height=75></td>
+<td bgcolor=LightGreen><img src="thumbnails/InsideCity_image_0079.jpg" width=75 height=75></td>
+<td bgcolor=LightCoral><img src="thumbnails/Kitchen_image_0190.jpg" width=57 height=75><br><small>Kitchen</small></td>
+<td bgcolor=LightCoral><img src="thumbnails/Store_image_0044.jpg" width=75 height=75><br><small>Store</small></td>
+<td bgcolor=#FFBB55><img src="thumbnails/InsideCity_image_0096.jpg" width=75 height=75><br><small>TallBuilding</small></td>
+<td bgcolor=#FFBB55><img src="thumbnails/InsideCity_image_0126.jpg" width=75 height=75><br><small>Suburb</small></td>
+</tr>
+<tr>
+<td>TallBuilding</td>
+<td>0.750</td>
+<td bgcolor=LightBlue><img src="thumbnails/TallBuilding_image_0178.jpg" width=75 height=75></td>
+<td bgcolor=LightBlue><img src="thumbnails/TallBuilding_image_0124.jpg" width=75 height=75></td>
+<td bgcolor=LightGreen><img src="thumbnails/TallBuilding_image_0016.jpg" width=75 height=75></td>
+<td bgcolor=LightGreen><img src="thumbnails/TallBuilding_image_0006.jpg" width=75 height=75></td>
+<td bgcolor=LightCoral><img src="thumbnails/Store_image_0117.jpg" width=71 height=75><br><small>Store</small></td>
+<td bgcolor=LightCoral><img src="thumbnails/Industrial_image_0052.jpg" width=105 height=75><br><small>Industrial</small></td>
+<td bgcolor=#FFBB55><img src="thumbnails/TallBuilding_image_0085.jpg" width=75 height=75><br><small>Coast</small></td>
+<td bgcolor=#FFBB55><img src="thumbnails/TallBuilding_image_0088.jpg" width=75 height=75><br><small>OpenCountry</small></td>
+</tr>
+<tr>
+<td>Street</td>
+<td>0.880</td>
+<td bgcolor=LightBlue><img src="thumbnails/Street_image_0275.jpg" width=75 height=75></td>
+<td bgcolor=LightBlue><img src="thumbnails/Street_image_0110.jpg" width=75 height=75></td>
+<td bgcolor=LightGreen><img src="thumbnails/Street_image_0006.jpg" width=75 height=75></td>
+<td bgcolor=LightGreen><img src="thumbnails/Street_image_0085.jpg" width=75 height=75></td>
+<td bgcolor=LightCoral><img src="thumbnails/Bedroom_image_0134.jpg" width=113 height=75><br><small>Bedroom</small></td>
+<td bgcolor=LightCoral><img src="thumbnails/Mountain_image_0001.jpg" width=75 height=75><br><small>Mountain</small></td>
+<td bgcolor=#FFBB55><img src="thumbnails/Street_image_0132.jpg" width=75 height=75><br><small>TallBuilding</small></td>
+<td bgcolor=#FFBB55><img src="thumbnails/Street_image_0013.jpg" width=75 height=75><br><small>InsideCity</small></td>
+</tr>
+<tr>
+<td>Highway</td>
+<td>0.810</td>
+<td bgcolor=LightBlue><img src="thumbnails/Highway_image_0189.jpg" width=75 height=75></td>
+<td bgcolor=LightBlue><img src="thumbnails/Highway_image_0188.jpg" width=75 height=75></td>
+<td bgcolor=LightGreen><img src="thumbnails/Highway_image_0060.jpg" width=75 height=75></td>
+<td bgcolor=LightGreen><img src="thumbnails/Highway_image_0147.jpg" width=75 height=75></td>
+<td bgcolor=LightCoral><img src="thumbnails/Coast_image_0003.jpg" width=75 height=75><br><small>Coast</small></td>
+<td bgcolor=LightCoral><img src="thumbnails/OpenCountry_image_0105.jpg" width=75 height=75><br><small>OpenCountry</small></td>
+<td bgcolor=#FFBB55><img src="thumbnails/Highway_image_0144.jpg" width=75 height=75><br><small>Coast</small></td>
+<td bgcolor=#FFBB55><img src="thumbnails/Highway_image_0136.jpg" width=75 height=75><br><small>Office</small></td>
+</tr>
+<tr>
+<td>OpenCountry</td>
+<td>0.560</td>
+<td bgcolor=LightBlue><img src="thumbnails/OpenCountry_image_0235.jpg" width=75 height=75></td>
+<td bgcolor=LightBlue><img src="thumbnails/OpenCountry_image_0331.jpg" width=75 height=75></td>
+<td bgcolor=LightGreen><img src="thumbnails/OpenCountry_image_0058.jpg" width=75 height=75></td>
+<td bgcolor=LightGreen><img src="thumbnails/OpenCountry_image_0031.jpg" width=75 height=75></td>
+<td bgcolor=LightCoral><img src="thumbnails/Coast_image_0005.jpg" width=75 height=75><br><small>Coast</small></td>
+<td bgcolor=LightCoral><img src="thumbnails/Coast_image_0093.jpg" width=75 height=75><br><small>Coast</small></td>
+<td bgcolor=#FFBB55><img src="thumbnails/OpenCountry_image_0038.jpg" width=75 height=75><br><small>TallBuilding</small></td>
+<td bgcolor=#FFBB55><img src="thumbnails/OpenCountry_image_0052.jpg" width=75 height=75><br><small>TallBuilding</small></td>
+</tr>
+<tr>
+<td>Coast</td>
+<td>0.770</td>
+<td bgcolor=LightBlue><img src="thumbnails/Coast_image_0080.jpg" width=75 height=75></td>
+<td bgcolor=LightBlue><img src="thumbnails/Coast_image_0048.jpg" width=75 height=75></td>
+<td bgcolor=LightGreen><img src="thumbnails/Coast_image_0042.jpg" width=75 height=75></td>
+<td bgcolor=LightGreen><img src="thumbnails/Coast_image_0083.jpg" width=75 height=75></td>
+<td bgcolor=LightCoral><img src="thumbnails/Highway_image_0133.jpg" width=75 height=75><br><small>Highway</small></td>
+<td bgcolor=LightCoral><img src="thumbnails/TallBuilding_image_0084.jpg" width=75 height=75><br><small>TallBuilding</small></td>
+<td bgcolor=#FFBB55><img src="thumbnails/Coast_image_0001.jpg" width=75 height=75><br><small>Bedroom</small></td>
+<td bgcolor=#FFBB55><img src="thumbnails/Coast_image_0096.jpg" width=75 height=75><br><small>OpenCountry</small></td>
+</tr>
+<tr>
+<td>Mountain</td>
+<td>0.810</td>
+<td bgcolor=LightBlue><img src="thumbnails/Mountain_image_0151.jpg" width=75 height=75></td>
+<td bgcolor=LightBlue><img src="thumbnails/Mountain_image_0124.jpg" width=75 height=75></td>
+<td bgcolor=LightGreen><img src="thumbnails/Mountain_image_0004.jpg" width=75 height=75></td>
+<td bgcolor=LightGreen><img src="thumbnails/Mountain_image_0034.jpg" width=75 height=75></td>
+<td bgcolor=LightCoral><img src="thumbnails/Store_image_0028.jpg" width=112 height=75><br><small>Store</small></td>
+<td bgcolor=LightCoral><img src="thumbnails/Forest_image_0026.jpg" width=75 height=75><br><small>Forest</small></td>
+<td bgcolor=#FFBB55><img src="thumbnails/Mountain_image_0005.jpg" width=75 height=75><br><small>Office</small></td>
+<td bgcolor=#FFBB55><img src="thumbnails/Mountain_image_0105.jpg" width=75 height=75><br><small>Coast</small></td>
+</tr>
+<tr>
+<td>Forest</td>
+<td>0.930</td>
+<td bgcolor=LightBlue><img src="thumbnails/Forest_image_0214.jpg" width=75 height=75></td>
+<td bgcolor=LightBlue><img src="thumbnails/Forest_image_0298.jpg" width=75 height=75></td>
+<td bgcolor=LightGreen><img src="thumbnails/Forest_image_0115.jpg" width=75 height=75></td>
+<td bgcolor=LightGreen><img src="thumbnails/Forest_image_0095.jpg" width=75 height=75></td>
+<td bgcolor=LightCoral><img src="thumbnails/OpenCountry_image_0057.jpg" width=75 height=75><br><small>OpenCountry</small></td>
+<td bgcolor=LightCoral><img src="thumbnails/Store_image_0075.jpg" width=82 height=75><br><small>Store</small></td>
+<td bgcolor=#FFBB55><img src="thumbnails/Forest_image_0124.jpg" width=75 height=75><br><small>Mountain</small></td>
+<td bgcolor=#FFBB55><img src="thumbnails/Forest_image_0024.jpg" width=75 height=75><br><small>Mountain</small></td>
+</tr>
+<tr>
+<th>Category name</th>
+<th>Accuracy</th>
+<th colspan=2>Sample training images</th>
+<th colspan=2>Sample true positives</th>
+<th colspan=2>False positives with true label</th>
+<th colspan=2>False negatives with wrong predicted label</th>
+</tr>
+</table>
+</center>
+
+</div>
+</body>
+</html>
